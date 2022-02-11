@@ -18,4 +18,11 @@
                , #{updateDate});
 
     </insert>
+
+    <select id="getUser" resultType="com.example.study.vo.UserVO">
+        SELECT *
+        FROM USER_MT
+        WHERE ID = #{id}
+
+    </select>
 </mapper>
