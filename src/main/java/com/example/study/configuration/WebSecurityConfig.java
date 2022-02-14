@@ -1,21 +1,24 @@
 package com.example.study.configuration;
 
+import com.example.study.security.LoginSuccessHandler;
 import com.example.study.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-//@Configuration
+@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
+
+//    private final LoginSuccessHandler loginSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,8 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login_process")
-                .defaultSuccessUrl("/user_access")
-                .failureUrl("/access_reject")
+//                .defaultSuccessUrl("/user_access")
+                //.failureUrl("/access_reject")
+                .successHandler(new LoginSuccessHandler())
                 .and()
             .cors().disable()
             .csrf().disable()
@@ -40,4 +44,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        super.configure(auth);
         auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
     }
+
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 }

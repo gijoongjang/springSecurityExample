@@ -8,9 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>로그인완료</title>
+    <title>main</title>
 </head>
 <body>
 <h1>환영합니다!!!</h1>
+<%
+    String name = (String) session.getAttribute("name");
+%>
+<a href="#"><%=name%>님 환영합니다!</a>
 </body>
 </html>
